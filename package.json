@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.47.3",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "next": "15.0.4",
+    "next-auth": "^4.24.11",
+    "node-cache": "^5.1.2",
+    "nodemailer": "^6.9.16",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.0.4"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "postcss": "^8",

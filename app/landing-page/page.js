@@ -7,7 +7,7 @@ import { images } from '@/constants';
 const Onboarding = () => {
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-br from-white to-blue-200 text-black">
-            <header className="flex justify-between items-center mb-40 w-full px-8 py-4 bg-gray-900 bg-opacity-75 text-white">
+            <header className="flex justify-between items-center mb-40 w-full px-8 py-4 bg-blue-600 text-white">
                 <h1 className="text-3xl font-bold">EmpowerHer Hub</h1>
             </header>
             <div className="text-center max-w-sm mx-auto h-40 w-40 mb-10">
