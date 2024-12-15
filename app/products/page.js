@@ -1,18 +1,44 @@
+'use client'
+
 import Sidebar from '@/components/Sidebar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductCard from '@/components/ProductCard'; // Import the ProductCard component
 import Link from 'next/link'; // Import the Link component
-
-// Example data for products
-const realProducts = [
-  { id: 1, title: 'Artistic Sculpture', description: 'A beautifully crafted sculpture perfect for any home decor.', images: ['https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D'], price: 1499, category: 'Home Decor', stock_quantity: 20 },
-  { id: 2, title: 'Techy T-shirt', description: 'A stylish T-shirt with a modern tech-inspired design.', images: ['https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D'], price: 999, category: 'Apparel', stock_quantity: 50 },
-  { id: 3, title: 'Gardening Tools Set', description: 'A comprehensive set of tools for avid gardeners.', images: ['https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D'], price: 2999, category: 'Gardening', stock_quantity: 15 },
-  { id: 4, title: 'Gaming Mouse', description: 'A high-precision gaming mouse for a competitive edge.', images: ['https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D'], price: 1999, category: 'Gaming', stock_quantity: 30 },
-  { id: 5, title: 'Organic Honey', description: 'Pure, organic honey sourced from the best beekeepers.', images: ['https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D'], price: 599, category: 'Food & Beverages', stock_quantity: 100 },
-];
+import { useSession } from 'next-auth/react';
 
 const Products = () => {
+  const { data: session } = useSession();
+
+  const [products, setProducts] = useState([]);
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        if(!session)
+          return
+        
+        const response = await fetch(`/api/products?user_id=${session?.user.id}`);
+
+        // Check if the response is okay
+        if (!response.ok) {
+          const { error } = await response.json();
+          throw new Error(error || "Failed to fetch products");
+        }
+
+        // Parse the response JSON
+        const { _products } = await response.json();
+
+        // Update state with the fetched products
+        setProducts(_products);
+      } catch (err) {
+        console.error(err)
+      }
+    };
+
+    fetchProducts();
+  }, []); 
+
   return (
     <div className='flex'>
       <Sidebar />
@@ -24,7 +50,7 @@ const Products = () => {
           </Link>
         </div>
         <div className='flex gap-5 flex-wrap'>
-          {realProducts.map(product => (
+          {products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

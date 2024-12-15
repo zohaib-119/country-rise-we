@@ -11,8 +11,8 @@ export async function POST(req) {
         const { name, description, price, stock_quantity, category_id, user_id, images } = await req.json();
 
         // Validate the input
-        if (!name || !description || !price || !stock_quantity || !category_id || !images) {
-            return new Response(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
+        if (!name || !description || !price || !stock_quantity || !category_id || !images || !user_id) {
+            return new Response(JSON.stringify({ error: 'Missing Fields in request body' }), { status: 400 });
         }
 
         // Get the session (no `res` required for App Router)
