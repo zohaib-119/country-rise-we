@@ -5,8 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { images } from '@/constants';
 import CustomInput from '@/components/CustomInput';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
+
   const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({ email: '', password: '', name: '', code: '' });
@@ -81,7 +84,6 @@ const SignUp = () => {
       console.error('Error during signup:', error);
     }
   };
-  
 
   return (
     <div>

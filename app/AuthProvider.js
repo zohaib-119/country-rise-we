@@ -1,7 +1,15 @@
-"use client"
+"use client";
 
-import {SessionProvider} from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
+import AuthRedirect from '@/components/AuthRedirect';
 
-export const AuthProvider = ({children}) => {
-    return <SessionProvider>{children}</SessionProvider>;
-}
+export const AuthProvider = ({ children }) => {
+  return (
+    <SessionProvider>
+      <AuthRedirect>
+        {children}
+      </AuthRedirect>
+    </SessionProvider>
+  );
+};
+
