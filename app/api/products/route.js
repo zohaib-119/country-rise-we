@@ -21,7 +21,7 @@ export async function GET(req) {
             .from("products")
             .select(`
                 id, name, description, price, stock_quantity, category_id,
-                product_images (url),
+                product_images (public_id),
                 categories (name)
             `)
             .eq("user_id", user_id);
@@ -37,7 +37,7 @@ export async function GET(req) {
             id: product.id,
             title: product.name,
             description: product.description,
-            images: product.product_images.map(image => image.url),
+            images: product.product_images.map(image => image.public_id),
             price: product.price,
             category: product.categories?.name || "Uncategorized",
             stock_quantity: product.stock_quantity,
