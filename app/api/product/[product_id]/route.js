@@ -136,7 +136,6 @@ export async function PUT(req, { params }) {
         }
 
         if (!product) {
-            console.log('twadi bhen nu lun')
             return new Response(
                 JSON.stringify({ error: "Product not found or does not belong to the user" }),
                 { status: 404 }
