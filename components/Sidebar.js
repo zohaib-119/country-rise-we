@@ -13,7 +13,7 @@ import {
 
 const Sidebar = () => {
   return (
-    <div className="h-screen w-1/6 bg-white text-blue-800 flex flex-col shadow-md">
+    <div className="h-screen w-1/6 bg-white text-blue-600 flex flex-col rounded-2xl shadow-md">
       {/* Logo Section */}
       <div className="h-20 flex items-center justify-center border-b border-blue-200">
         <h1 className="text-2xl font-bold">EmpowerHer Hub</h1>

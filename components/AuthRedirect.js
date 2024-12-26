@@ -9,7 +9,7 @@ import LoadingComponent from './LoadingComponent';
 const AuthRedirect = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
     console.log(pathname)
