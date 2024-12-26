@@ -39,7 +39,7 @@ export async function POST(req) {
         // generate a six digit code
         const code = generateSixDigitCode();
 
-        saveCode(email, code);
+        await saveCode(email, code);
 
         // send code via email
         console.log(`verification code for ${email} is ${code}`)

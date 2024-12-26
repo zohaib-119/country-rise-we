@@ -5,8 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { images } from '@/constants';
 import CustomInput from '@/components/CustomInput';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
 

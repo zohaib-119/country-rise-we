@@ -46,7 +46,7 @@ export async function POST(req) {
         }
 
         // Insert the new user into the database
-        const { data: newUser, error: insertError } = await client.from('users').insert([
+        const { error: insertError } = await client.from('users').insert([
             {
                 name,
                 email,
@@ -64,7 +64,7 @@ export async function POST(req) {
 
         // Send success response
         return new Response(
-            JSON.stringify({ message: 'User created successfully', verifyCode }),
+            JSON.stringify({ message: 'User created successfully' }),
             { status: 201 }
         );
     } catch (error) {
