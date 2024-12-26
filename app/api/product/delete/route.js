@@ -1,3 +1,5 @@
+// code review 1.0 passed
+
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import dbConnect from '@/lib/dbConnect';
@@ -30,6 +32,7 @@ export async function DELETE(req) {
             .from('products')
             .select('user_id')
             .eq('id', product_id)
+            .is('deleted_at', null)
             .single();
 
         if (productError) {
@@ -37,22 +40,25 @@ export async function DELETE(req) {
             return new Response(JSON.stringify({ error: 'Failed to fetch product details' }), { status: 500 });
         }
 
+        if (!product) {
+            return new Response(JSON.stringify({ error: 'Product Not Found' }), { status: 403 });
+        }
+
         if (product.user_id !== user_id) {
             return new Response(JSON.stringify({ error: 'You are not authorized to delete this product' }), { status: 403 });
         }
 
-        // Delete the product
-        const { error } = await client
+        const { error: deleteError } = await client
             .from('products')
-            .delete()
-            .eq('id', product_id);
+            .update({ deleted_at: new Date() })
+            .eq('id', product_id)
 
-        if (error) {
+        if (deleteError) {
             console.error('Failed to delete product:', error);
             return new Response(JSON.stringify({ error: 'Failed to delete product' }), { status: 500 });
         }
 
-        return new Response(JSON.stringify({ message: 'Product deleted successfully', product_id }), { status: 200 });
+        return new Response(JSON.stringify({ message: 'Product deleted successfully' }), { status: 200 });
 
     } catch (error) {
         console.error('Internal server error:', error);

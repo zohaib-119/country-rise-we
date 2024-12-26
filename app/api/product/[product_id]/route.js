@@ -1,3 +1,7 @@
+// code review 1.0 passed
+
+// Get Product for Edit Page and Update the Product APIs
+
 import dbConnect from "@/lib/dbConnect";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
@@ -39,6 +43,7 @@ export async function GET(req, { params }) {
             `)
             .eq("id", product_id)
             .eq("user_id", user_id)
+            .is("deleted_at", null)
             .single(); // Ensure only one product is fetched
 
         if (productError) {
@@ -125,6 +130,7 @@ export async function PUT(req, { params }) {
             .select("id, user_id")
             .eq("id", product_id)
             .eq("user_id", user_id)
+            .is('deleted_at', null)
             .single();
 
         if (productError) {
@@ -163,7 +169,7 @@ export async function PUT(req, { params }) {
         }
 
         // Update product images
-        // Clear old images first
+        // Clear old images first -> This does not delete the images from cloudinary. In future this would be handled
         const { error: deleteImagesError } = await client
             .from("product_images")
             .delete()
@@ -179,7 +185,7 @@ export async function PUT(req, { params }) {
 
         // Insert product images into the Supabase product_images table
         for (const image of images) {
-            const { data: imageData, error: imageError } = await client.from('product_images').insert({
+            const { error: imageError } = await client.from('product_images').insert({
                 url: image.url,
                 public_id: image.public_id,
                 product_id

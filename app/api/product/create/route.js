@@ -1,3 +1,5 @@
+// code review 1.0 passed
+
 import { getServerSession } from 'next-auth/next'; 
 import { authOptions } from '../../auth/[...nextauth]/route';
 import dbConnect from '@/lib/dbConnect';
@@ -51,7 +53,7 @@ export async function POST(req) {
 
         // Insert product images into the Supabase product_images table
         for (const image of images) {
-            const { data: imageData, error: imageError } = await client.from('product_images').insert({
+            const { error: imageError } = await client.from('product_images').insert({
                 url: image.url,
                 public_id: image.public_id,
                 product_id

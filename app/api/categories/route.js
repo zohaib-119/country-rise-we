@@ -1,3 +1,5 @@
+// code review 1.0 passed
+
 import dbConnect from '@/lib/dbConnect'; 
 
 export async function GET(req) {
@@ -22,7 +24,6 @@ export async function GET(req) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error in GET request: ', error);
         return new Response(
             JSON.stringify({ error: 'Internal server error' }),
             { status: 500 }

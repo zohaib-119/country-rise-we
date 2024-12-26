@@ -1,3 +1,5 @@
+// code review 1.0 passed
+
 import dbConnect from "@/lib/dbConnect";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
@@ -20,17 +22,16 @@ export async function GET(req) {
         const { data: products, error: productsError } = await client
             .from("products")
             .select(`
-                id, name, description, price, stock_quantity, category_id,
+                id, name, description, price, stock_quantity,
                 product_images (public_id),
                 categories (name)
             `)
-            .eq("user_id", user_id);
+            .eq("user_id", user_id)
+            .is('deleted_at', null);
 
         if (productsError) {
             throw new Error(productsError.message);
         }
-
-        console.log(products);
 
         // Format response
         const formattedProducts = products.map(product => ({
@@ -42,9 +43,7 @@ export async function GET(req) {
             category: product.categories?.name || "Uncategorized",
             stock_quantity: product.stock_quantity,
         }));
-
-        console.log(formattedProducts)
-
+        
         return new Response(
             JSON.stringify({ products: formattedProducts, message: "Products fetched successfully" }),
             { status: 200 }
