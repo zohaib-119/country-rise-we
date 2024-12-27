@@ -51,7 +51,7 @@ const Sidebar = () => {
           </li>
           <li>
             <Link
-              href="/account-settings"
+              href="/profile"
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <AiOutlineSetting size={20} />

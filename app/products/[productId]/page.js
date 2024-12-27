@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react';
-import { FaStar, FaRegStar } from 'react-icons/fa';
 import Image from 'next/image';
 
 // Mock data
@@ -125,12 +124,12 @@ const ProductDetails = () => {
                                 <p className="text-gray-700 mt-2">{review.comment}</p>
                                 <div className="flex justify-between mt-2">
                                     <p className="text-gray-500 text-sm">Reviewed on {review.createdAt}</p>
-                                    <button
+                                    {/* <button
                                         className="bg-red-500 text-white py-1 px-2 rounded-2xl hover:bg-red-600"
                                         onClick={() => handleDeleteReview(review.id)}
                                     >
                                         Delete
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         ))}

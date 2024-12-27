@@ -49,12 +49,6 @@ export const authOptions = {
           return {
             id: user.id,
             email: user.email,
-            name: user.name,
-            profile_picture: user.profile_picture,
-            phone_number: user.phone_number,
-            address: user.address,
-            city: user.city,
-            state: user.state,
           };
         } catch (error) {
           console.error('Error authorizing user:', error);
