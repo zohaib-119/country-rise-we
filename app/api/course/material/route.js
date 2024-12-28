@@ -60,7 +60,7 @@ export async function POST(req) {
         }
 
         // Insert the course material into the course_materials table
-        const { data: newMaterial, error: insertError } = await client
+        const { error: insertError } = await client
             .from("course_materials")
             .insert([
                 {
@@ -70,7 +70,6 @@ export async function POST(req) {
                     public_id, // Assuming public_id is part of the material
                 },
             ])
-            .single();
 
         if (insertError) {
             console.error(insertError);
@@ -83,12 +82,6 @@ export async function POST(req) {
         // Return the inserted material
         return new Response(
             JSON.stringify({
-                material: {
-                    id: newMaterial.id,
-                    title: newMaterial.title,
-                    url: newMaterial.url,
-                    created_at: newMaterial.created_at,
-                },
                 message: "Course material added successfully",
             }),
             { status: 201 }
