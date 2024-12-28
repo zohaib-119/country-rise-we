@@ -60,7 +60,7 @@ const Enrollments = () => {
                 <th className="p-3 text-left">Phone</th>
                 <th className="p-3 text-left">Address</th>
                 <th className="p-3 text-left">Fee Paid</th>
-                <th className="p-3 text-left">Enrollment Date</th>
+                <th className="p-3 text-left">Enrollment At</th>
               </tr>
             </thead>
             <tbody>
@@ -78,7 +78,7 @@ const Enrollments = () => {
                   <td className="p-3">{user.phone}</td>
                   <td className="p-3">{user.address}</td>
                   <td className="p-3 text-blue-500 font-semibold">{user.fee_paid}</td>
-                  <td className="p-3">{user.enrollment_date}</td>
+                  <td className="p-3">{new Date(user.enrollment_date).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>

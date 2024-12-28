@@ -32,7 +32,7 @@ export async function GET(req, { params }) {
         // Fetch the course details
         const { data: course, error: courseError } = await client
             .from("courses")
-            .select("id, title, description, creator_id")
+            .select("id, title, description, start_date, creator_id")
             .eq("id", course_id)
             .is("deleted_at", null)
             .single();
@@ -48,6 +48,13 @@ export async function GET(req, { params }) {
         if (!course) {
             return new Response(
                 JSON.stringify({ error: "Course not found" }),
+                { status: 404 }
+            );
+        }
+
+        if(new Date(course.start_date) > new Date() && course.creator_id !== session.user.id) {
+            return new Response(
+                JSON.stringify({ error: "You cannot access the course before start date" }),
                 { status: 404 }
             );
         }

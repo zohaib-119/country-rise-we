@@ -30,7 +30,7 @@ const CourseDashboard = () => {
                     (a, b) => new Date(a.created_at) - new Date(b.created_at)
                 ));
             } else {
-                router.push('/');
+                router.push('/enrolled-courses');
             }
         } catch (err) {
             console.error("Error fetching course:", err);
@@ -42,7 +42,7 @@ const CourseDashboard = () => {
     }, [courseId]);
 
     const handleViewEnrollments = () => {
-        router.push('/course/enrollments/1');
+        router.push(`/course/enrollments/${courseId}`);
     };
 
     const openAddModal = () => {

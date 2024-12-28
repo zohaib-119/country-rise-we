@@ -27,19 +27,21 @@ export async function POST(req) {
     const uploadResults = await Promise.all(
       files.map(async (file, index) => {
         const fileBuffer = Buffer.from(await file.arrayBuffer()); // Convert Blob to Buffer
-        
+
         const uploadDir = path.join(__dirname, 'public', 'upload'); // Directory to save the file
         if (!fs.existsSync(uploadDir)) {
           fs.mkdirSync(uploadDir, { recursive: true });
         }
 
         const tempPath = path.join(uploadDir, `temp-${index}-${file.name}`);
-        
+
         // Write buffer to local file
         await fs.promises.writeFile(tempPath, fileBuffer);
 
         // Upload to Cloudinary
-        const result = await cloudinary.uploader.upload(tempPath, { resource_type: 'auto' });
+        const result = await cloudinary.uploader.upload(tempPath, {
+          resource_type: 'auto'
+        });
 
         // Delete the local file after upload
         await fs.promises.unlink(tempPath);
@@ -50,8 +52,8 @@ export async function POST(req) {
 
     // Extract secure URLs
     const result = uploadResults.map((result) => {
-        return {url: result.secure_url, public_id: result.public_id}
-     });
+      return { url: result.secure_url, public_id: result.public_id }
+    });
 
     return new Response(
       JSON.stringify({ success: true, result }),
@@ -67,28 +69,28 @@ export async function POST(req) {
 }
 
 export async function DELETE(req) {
-    try {
-      const { public_id } = await req.json(); // Get public ID from request body
-  
-      if (!public_id) {
-        return new Response(
-          JSON.stringify({ success: false, message: 'Public ID is required for deletion.' }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-  
-      // Delete from Cloudinary
-      const result = await cloudinary.uploader.destroy(public_id);
-  
+  try {
+    const { public_id } = await req.json(); // Get public ID from request body
+
+    if (!public_id) {
       return new Response(
-        JSON.stringify({ success: true, result }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
-    } catch (error) {
-      console.error('Delete error:', error);
-      return new Response(
-        JSON.stringify({ success: false, error: error.message }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ success: false, message: 'Public ID is required for deletion.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
+    // Delete from Cloudinary
+    const result = await cloudinary.uploader.destroy(public_id);
+
+    return new Response(
+      JSON.stringify({ success: true, result }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
+  } catch (error) {
+    console.error('Delete error:', error);
+    return new Response(
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
+}

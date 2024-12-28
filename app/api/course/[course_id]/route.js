@@ -7,7 +7,7 @@ export async function GET(req, { params }) {
         const client = await dbConnect();
 
         // Get the course ID from the dynamic URL params
-        const { course_id } = params;
+        const { course_id } = await params;
 
         if (!course_id) {
             return new Response(
@@ -27,16 +27,13 @@ export async function GET(req, { params }) {
             );
         }
 
-        const user_id = session.user.id;
-
         // Fetch the course
         const { data: course, error: courseError } = await client
             .from("courses")
             .select(`
-                 title, description, fee, start_date, end_date, thumbnail_url, category
+                 id, title, description, fee, start_date, end_date, thumbnail_url, category, creator_id
             `)
             .eq("id", course_id)
-            .eq("creator_id", user_id)
             .is("deleted_at", null)
             .single(); // Ensure only one course is fetched
 
@@ -57,6 +54,7 @@ export async function GET(req, { params }) {
 
         // Format response
         const formattedCourse = {
+            id: course.id,
             title: course.title,
             description: course.description,
             fee: course.fee,
@@ -64,6 +62,7 @@ export async function GET(req, { params }) {
             endDate: course.end_date,
             thumbnail: course.thumbnail_url,
             category: course.category,
+            creator_id: course.creator_id
         };
 
         return new Response(

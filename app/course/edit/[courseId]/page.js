@@ -6,11 +6,14 @@ import React, { useEffect, useState } from 'react';
 import CustomInput from '@/components/CustomInput';
 import { useRouter, useParams } from 'next/navigation';
 import LoadingComponent from '@/components/LoadingComponent';
+import { useSession } from 'next-auth/react';
+
 
 const EditCourse = () => {
     const router = useRouter();
     const { courseId } = useParams(); // Extract productId from the dynamic route
 
+    const {data: session} = useSession();
 
     const [form, setForm] = useState(null);
 
@@ -36,7 +39,11 @@ const EditCourse = () => {
                     console.log(result.error);
                     router.push('/offered-courses');
                 } else {
-                    setForm(result.course);
+                    if(result.course.creator_id === session.user.id){
+                        setForm(result.course);
+                    } else {
+                        router.push('/offered-courses')
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching course:', error);
