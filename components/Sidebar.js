@@ -9,6 +9,7 @@ import {
   AiOutlineLineChart,
   AiOutlineSetting,
   AiOutlineLogout,
+  AiOutlineProject,
 } from 'react-icons/ai';
 
 const Sidebar = () => {
@@ -47,6 +48,15 @@ const Sidebar = () => {
             >
               <AiOutlineLineChart size={20} />
               Sales Overview
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/offered-courses"
+              className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
+            >
+              <AiOutlineProject size={20} />
+              My Courses
             </Link>
           </li>
           <li>
