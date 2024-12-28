@@ -62,7 +62,7 @@ const EnrollmentSuccess = () => {
         <h1 className="text-3xl font-bold text-red-700">Enrollment Failed. Please try again.</h1>
       )}
       <p>{isEnrolled ? 'You have successfully enrolled in the course. Happy learning!' : 'There was an issue with the payment.'}</p>
-      <button className="flex items-center justify-center bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 transition duration-200">
+      <button className="flex items-center justify-center bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 transition duration-200" onClick={()=> router.push('/enrolled-courses')}>
         <FaArrowRight className="mr-2" />
         Go to Enrolled Courses
       </button>

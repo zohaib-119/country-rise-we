@@ -1,10 +1,12 @@
 import React from "react";
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import { useRouter } from "next/navigation";
 
 const CourseCard = ({ course, onEdit, onDelete }) => {
+    const router = useRouter();
 
-    const truncatedDescription = course.description.length > 55
-    ? course.description.slice(0, 52) + '...' 
+    const truncatedDescription = course.description.length > 53
+    ? course.description.slice(0, 50) + '...' 
     : course.description;
 
     return (
@@ -12,7 +14,8 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
             <img
                 src={course.thumbnail_url}
                 alt={course.title}
-                className="w-full h-40 object-cover"
+                className="w-full h-40 object-cover cursor-pointer"
+                onClick={() => router.push(`/course/${course.id}`)}
             />
             <div className="p-4">
                 <h3 className="text-xl font-bold text-blue-600">{course.title}</h3>

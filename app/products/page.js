@@ -28,26 +28,26 @@ const Products = () => {
         },
         body: JSON.stringify({ product_id }), // Pass only the product_id
       });
-  
+
       // Check for response success
       if (!response.ok) {
         const { error } = await response.json();
         throw new Error(error || "Failed to delete product");
       }
-  
+
       // Update the product list state by filtering out the deleted product
       setProducts((prevProducts) => prevProducts.filter((product) => product.id !== product_id));
-  
+
       // Close the delete modal and reset selected product
       setIsDeleteModalOpen(false);
       setSelectedProduct(null);
-  
+
       console.log('Product deleted successfully');
     } catch (err) {
       console.error('Error deleting product:', err);
     }
   };
-  
+
 
   const handleChangeStock = async (product_id, stock_quantity) => {
     try {
@@ -113,15 +113,15 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  if(loading)
-    return <LoadingComponent/>
+  if (loading)
+    return <LoadingComponent />
 
   return (
     <div className='flex'>
       <Sidebar />
-      <div className='w-5/6 h-screen overflow-auto p-4'>
-        <div className='flex justify-between items-center mb-4'>
-          <h2 className='text-2xl font-semibold'>Product List</h2>
+      <div className='w-5/6 h-screen overflow-auto p-6'>
+        <div className='flex justify-between items-center mb-6'>
+            <h1 className="text-3xl font-bold text-blue-700">Products</h1>
           <Link href="/products/add">
             <button className='bg-blue-500 text-white px-4 py-2 rounded'>Create Product</button>
           </Link>

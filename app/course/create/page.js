@@ -106,6 +106,8 @@ const CreateCourse = () => {
                 throw new Error('Failed to create product');
             }
 
+            router.push('/offered-courses')
+
             // Clear the form on successful submission
             setForm({
                 title: '',
@@ -116,8 +118,6 @@ const CreateCourse = () => {
                 endDate: null,
                 thumbnail: null,
             });
-
-            router.push('/offered-courses')
         } catch (error) {
             console.error('Error creating product:', error);
         }

@@ -5,9 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { images } from '@/constants';
 import CustomInput from '@/components/CustomInput';
+import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
 
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({ email: '', password: '', name: '', code: '' });
@@ -74,6 +76,7 @@ const SignUp = () => {
   
       if (response.ok) {
         console.log('Signup successful.');
+        router.push('/login');
         setShowModal(false); // Close the modal after successful signup
       } else {
         console.error('Signup failed.');

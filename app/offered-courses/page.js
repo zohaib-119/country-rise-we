@@ -10,6 +10,8 @@ const OfferedCourses = () => {
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [courseToDelete, setCourseToDelete] = useState(null);
 
   const fetchCourses = async () => {
     try {
@@ -30,6 +32,16 @@ const OfferedCourses = () => {
     fetchCourses();
   }, []);
 
+  const openDeleteModal = (course) => {
+    setCourseToDelete(course);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setCourseToDelete(null);
+  };
+
   const handleCreateCourse = () => {
     router.push('/course/create');
   };
@@ -38,10 +50,36 @@ const OfferedCourses = () => {
     router.push(`/course/edit/${id}`);
   };
 
-  const handleDeleteCourse = (id) => {
-    console.log(`Delete Course with ID: ${id}`);
-    // Add delete logic if needed
+  const handleDeleteCourse = async (id) => {
+    try {
+      // Log the course ID for debugging
+      console.log(`Attempting to delete course with ID: ${id}`);
+  
+      // Call the backend DELETE API
+      const response = await fetch(`/api/course`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ course_id: id }),
+      });
+  
+      // Parse the response
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log(`Course deleted successfully: ${id}`);
+        setCourses((prevCourses) => prevCourses.filter((course) => course.id !== id));
+      } else {
+        console.error(`Failed to delete course: ${data.error}`);
+        alert(`Failed to delete course: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Error during course deletion:', error);
+      alert('An unexpected error occurred while deleting the course.');
+    }
   };
+  
 
   if (loading) {
     return <LoadingComponent />
@@ -50,12 +88,12 @@ const OfferedCourses = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-5/6 h-screen overflow-auto m-10">
+      <div className="w-5/6 h-screen overflow-auto p-6">
         <div className="mb-6 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-blue-700">Offered Courses</h1>
           <button
             onClick={handleCreateCourse}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             Create Course
           </button>
@@ -66,10 +104,34 @@ const OfferedCourses = () => {
               key={course.id}
               course={course}
               onEdit={handleEditCourse}
-              onDelete={handleDeleteCourse}
+              onDelete={() => openDeleteModal(course)}
             />
           ))}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {isDeleteModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded shadow-lg w-96">
+              <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+              <p>Are you sure you want to delete course "{courseToDelete.title}"?</p>
+              <div className="flex justify-end gap-4 mt-4">
+                <button
+                  onClick={closeDeleteModal}
+                  className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDeleteCourse(courseToDelete.id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

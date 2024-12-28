@@ -162,7 +162,7 @@ const CourseDashboard = () => {
     return (
         <div className='flex'>
             <Sidebar />
-            <div className="m-10 w-5/6 h-screen overflow-auto">
+            <div className="p-6 w-5/6 h-screen overflow-auto">
                 {/* Course Details */}
                 <div className="mb-6">
                     <h1 className="text-4xl font-bold text-blue-700">{course.title}</h1>

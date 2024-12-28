@@ -82,7 +82,7 @@ const ExploreCourses = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="m-10 h-screen w-5/6 overflow-auto">
+      <div className="p-8 h-screen w-5/6 overflow-auto">
         <div className="mb-6 flex justify-between">
           <h1 className="text-3xl font-bold text-blue-700">Explore Courses</h1>
 
