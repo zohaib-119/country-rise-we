@@ -11,13 +11,16 @@ import {
   AiOutlineLogout,
   AiOutlineProject,
 } from 'react-icons/ai';
+import {
+  FaBook, FaChalkboardTeacher, FaCompass
+} from 'react-icons/fa'
 
 const Sidebar = () => {
   return (
     <div className="h-screen w-1/6 bg-white text-blue-600 flex flex-col rounded-2xl shadow-md">
       {/* Logo Section */}
       <div className="h-20 flex items-center justify-center border-b border-blue-200">
-        <h1 className="text-2xl font-bold">EmpowerHer Hub</h1>
+        <h1 className="text-2xl font-bold">CountryRise</h1>
       </div>
 
       {/* Navigation Options */}
@@ -55,8 +58,26 @@ const Sidebar = () => {
               href="/offered-courses"
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
-              <AiOutlineProject size={20} />
+              <FaChalkboardTeacher size={20} />
               My Courses
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/enrolled-courses"
+              className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
+            >
+              <FaBook size={20} />
+              Enrolled Courses
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/explore-courses"
+              className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
+            >
+              <FaCompass size={20} />
+              Explore Courses
             </Link>
           </li>
           <li>

@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div>
       <header className="flex justify-between items-center fixed top-0 mb-10 w-full px-8 py-4 bg-blue-600 text-white">
-        <h1 className="text-3xl font-bold">EmpowerHer Hub</h1>
+        <h1 className="text-3xl font-bold">CountryRise</h1>
       </header>
       <div className="flex min-h-screen bg-gradient-to-br from-white to-blue-200">
         {/* Left Side: Form Section */}

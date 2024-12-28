@@ -172,9 +172,9 @@ const Profile = () => {
     return <LoadingComponent />
 
   return (
-    <div className="min-h-screen flex justify-center">
+    <div className="min-h-screen flex">
       <Sidebar/>
-      <div className="bg-white rounded-2xl w-5/6 p-8 shadow-lg">
+      <div className="bg-white rounded-2xl w-5/6 h-screen overflow-auto p-8 shadow-lg">
         <div className="flex justify-between">
           <h1 className="text-3xl font-bold text-blue-600">Profile</h1>
           <div className='flex gap-3'>

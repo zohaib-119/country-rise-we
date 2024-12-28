@@ -1,5 +1,6 @@
 'use client'
 
+import LoadingComponent from "@/components/LoadingComponent";
 import Sidebar from "@/components/Sidebar";
 import React, { useState, useEffect } from "react";
 import { FaUsers, FaBoxOpen, FaMoneyBillWave, FaStar, FaCartPlus } from "react-icons/fa";
@@ -15,8 +16,8 @@ const mockData = {
 
 const Sales = () => {
 
-  const [products, setProducts] = useState([]);
-  const [stats, setStats] = useState(null)
+  const [products, setProducts] = useState(null);
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -66,10 +67,13 @@ const Sales = () => {
     fetchStats();
   }, []);
 
+  if (!products || !stats) 
+    return <LoadingComponent/>
+
   return (
     <div className="flex">
       <Sidebar />
-      <div className="min-h-screen w-5/6 bg-gray-100 p-8">
+      <div className="w-5/6 h-screen overflow-auto bg-white p-8 shadow-md">
         <h1 className="text-3xl font-bold text-blue-600 mb-6">Sales Overview</h1>
 
         {/* Statistics Section */}

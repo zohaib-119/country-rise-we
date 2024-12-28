@@ -7,6 +7,7 @@ import Link from 'next/link';
 import DeleteProductModal from '@/components/DeleteProductModal';
 import ChangeStockModal from '@/components/ChangeStockModal';
 import { useRouter } from 'next/navigation';
+import LoadingComponent from '@/components/LoadingComponent';
 
 const Products = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const Products = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isStockModalOpen, setIsStockModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handleDelete = async (product_id) => {
     try {
@@ -102,6 +104,7 @@ const Products = () => {
 
         // Update state with the fetched products
         setProducts(products);
+        setLoading(false);
       } catch (err) {
         console.error(err);
       }
@@ -109,6 +112,9 @@ const Products = () => {
 
     fetchProducts();
   }, []);
+
+  if(loading)
+    return <LoadingComponent/>
 
   return (
     <div className='flex'>
