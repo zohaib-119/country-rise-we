@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth/next';
 import dbConnect from '@/lib/dbConnect';
 import { authOptions } from '../../auth/[...nextauth]/route';
-import Stripe from '@stripe/stripe-js';
+import Stripe from 'stripe';
 
 
 
