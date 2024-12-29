@@ -89,7 +89,7 @@ const Sales = () => {
 
           {/* Products Sold */}
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
-            <FaBoxOpen className="text-green-500 text-3xl" />
+            <FaBoxOpen className="text-blue-500 text-3xl" />
             <div>
               <p className="text-gray-500">Products Sold</p>
               <h2 className="text-2xl font-bold">{stats.numberOfProductsSold}</h2>
@@ -98,7 +98,7 @@ const Sales = () => {
 
           {/* Revenue Generated */}
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
-            <FaMoneyBillWave className="text-yellow-500 text-3xl" />
+            <FaMoneyBillWave className="text-blue-500 text-3xl" />
             <div>
               <p className="text-gray-500">Revenue Generated</p>
               <h2 className="text-2xl font-bold">Rs. {stats.revenueGenerated.toLocaleString()}</h2>
@@ -107,7 +107,7 @@ const Sales = () => {
 
           {/* Most Sold Product */}
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
-            <FaCartPlus className="text-purple-500 text-3xl" />
+            <FaCartPlus className="text-blue-500 text-3xl" />
             <div>
               <p className="text-gray-500">Most Sold Product</p>
               <h2 className="text-2xl font-bold">{stats.mostSoldProduct}</h2>
@@ -116,7 +116,7 @@ const Sales = () => {
 
           {/* Total Reviews */}
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
-            <FaStar className="text-orange-500 text-3xl" />
+            <FaStar className="text-blue-500 text-3xl" />
             <div>
               <p className="text-gray-500">Total Reviews</p>
               <h2 className="text-2xl font-bold">{stats.totalReviews}</h2>
@@ -125,7 +125,7 @@ const Sales = () => {
 
           {/* Average Rating */}
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
-            <FaStar className="text-yellow-500 text-3xl" />
+            <FaStar className="text-blue-500 text-3xl" />
             <div>
               <p className="text-gray-500">Average Rating</p>
               <h2 className="text-2xl font-bold">{stats.averageRating} / 5</h2>
