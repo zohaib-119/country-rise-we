@@ -6,8 +6,11 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import LoadingComponent from '@/components/LoadingComponent';
 import Sidebar from '@/components/Sidebar';
+import { translations } from '@/constants';
+import { useLanguage } from '@/context/LanguageProvider';
 
 const CourseDashboard = () => {
+    const {language} = useLanguage();
     const router = useRouter();
     const { courseId } = useParams();
     const { data: session } = useSession();
@@ -177,13 +180,13 @@ const CourseDashboard = () => {
                             onClick={handleViewEnrollments}
                             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                         >
-                            View Enrollments
+                            {translations[language].viewEnrollments}
                         </button>
                         <button
                             onClick={openAddModal}
                             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                         >
-                            Add Course Material
+                            {translations[language].addCourseMaterial}
                         </button>
                     </div>
                 )}
@@ -215,14 +218,14 @@ const CourseDashboard = () => {
                                                 onClick={() => openDeleteModal(material)}
                                                 className='text-red-500'
                                             >
-                                                Delete
+                                                {translations[language].delete}
                                             </button>)}
                                     </div>
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-gray-600">No materials have been shared yet.</p>
+                        <p className="text-gray-600">{translations[language].noMaterialFound}</p>
                     )}
                 </div>
 
@@ -253,13 +256,13 @@ const CourseDashboard = () => {
                                     onClick={closeAddModal}
                                     className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
                                 >
-                                    Cancel
+                                    {translations[language].cancel}
                                 </button>
                                 <button
                                     onClick={addMaterial}
                                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                                 >
-                                    Add
+                                    {translations[language].add}
                                 </button>
                             </div>
                         </div>
@@ -270,20 +273,20 @@ const CourseDashboard = () => {
                 {isDeleteModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white p-6 rounded shadow-lg w-96">
-                            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-                            <p>Are you sure you want to delete "{materialToDelete.title}"?</p>
+                            <h2 className="text-xl font-bold mb-4">{translations[language].confirmDelete}</h2>
+                            <p>{translations[language].deleteConfirmation}"{materialToDelete.title}"?</p>
                             <div className="flex justify-end gap-4 mt-4">
                                 <button
                                     onClick={closeDeleteModal}
                                     className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
                                 >
-                                    Cancel
+                                    {translations[language].cancel}
                                 </button>
                                 <button
                                     onClick={deleteMaterial}
                                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                                 >
-                                    Delete
+                                    {translations[language].delete}
                                 </button>
                             </div>
                         </div>

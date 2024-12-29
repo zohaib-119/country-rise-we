@@ -2,6 +2,7 @@
 
 import dbConnect from '@/lib/dbConnect'; // Adjust the path to your dbConnect utility
 import { saveCode } from '@/utils/codeUtils'
+import { sendMail } from '@/lib/sendMail';
 
 // function to generate a six digit code
 function generateSixDigitCode() {
@@ -44,7 +45,8 @@ export async function POST(req) {
         await saveCode(email, code);
 
         // send code via email
-        console.log(`verification code for ${email} is ${code}`)
+        // console.log(`verification code for ${email} is ${code}`)
+        await sendMail(email,  'CourntryRise Verification',`Your Verification code for CountryRise is: ${code}`)
 
         // Send success response
         return new Response(

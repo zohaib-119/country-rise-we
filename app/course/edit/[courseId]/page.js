@@ -7,13 +7,16 @@ import CustomInput from '@/components/CustomInput';
 import { useRouter, useParams } from 'next/navigation';
 import LoadingComponent from '@/components/LoadingComponent';
 import { useSession } from 'next-auth/react';
+import { translations } from '@/constants';
+import { useLanguage } from '@/context/LanguageProvider';
 
 
 const EditCourse = () => {
+    const { language } = useLanguage()
     const router = useRouter();
     const { courseId } = useParams(); // Extract productId from the dynamic route
 
-    const {data: session} = useSession();
+    const { data: session } = useSession();
 
     const [form, setForm] = useState(null);
 
@@ -39,7 +42,7 @@ const EditCourse = () => {
                     console.log(result.error);
                     router.push('/offered-courses');
                 } else {
-                    if(result.course.creator_id === session.user.id){
+                    if (result.course.creator_id === session.user.id) {
                         setForm(result.course);
                     } else {
                         router.push('/offered-courses')
@@ -148,32 +151,32 @@ const EditCourse = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
             <div className="bg-white shadow-lg rounded-lg w-full max-w-3xl p-6">
-                <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">Create Course</h2>
+                <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">{translations[language].editCourse}</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className='flex gap-6'>
                         <CustomInput
-                            label="Title"
-                            placeholder="Enter the course title"
+                            label={translations[language].courseTitle}  
+                            placeholder={translations[language].enterCourseTitle}  
                             value={form.title}
                             handleChange={handleTitleChange}
                         />
 
                         <CustomInput
-                            label="Course Fee"
-                            placeholder="Enter the course fee"
+                            label={translations[language].courseFee}  
+                            placeholder={translations[language].enterCourseFee}  
                             value={form.fee}
                             handleChange={handleFeeChange}
                         />
 
                         <div className="space-y-2">
-                            <label htmlFor="category" className="block text-lg font-semibold mb-2">Category</label>
+                            <label htmlFor="category" className="block text-lg font-semibold mb-2">{translations[language].category}</label>  
                             <select
                                 id="category"
                                 value={form.category}
                                 onChange={handleCategoryChange}
                                 className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             >
-                                <option value="" disabled>Select a category</option>
+                                <option value="" disabled>{translations[language].selectCategory}</option>  
                                 {categories.map((category) => (
                                     <option key={category.id} value={category.name}>
                                         {category.name}
@@ -184,31 +187,30 @@ const EditCourse = () => {
                     </div>
 
                     <CustomInput
-                        label="Description"
-                        placeholder="Enter the course description"
+                        label={translations[language].courseDescription}  
+                        placeholder={translations[language].enterCourseDescription}  
                         value={form.description}
                         handleChange={handleDescriptionChange}
                     />
 
-
                     <div className='flex justify-between'>
                         <CustomInput
-                            label="Start Date"
+                            label={translations[language].startDate} 
                             type="date"
-                            placeholder="Enter the course fee"
+                            placeholder={translations[language].enterStartDate}  
                             value={form.startDate}
                             handleChange={(e) => setForm({ ...form, startDate: e.target.value })}
                         />
 
                         <CustomInput
-                            label="End Date"
+                            label={translations[language].endDate}  
                             type="date"
-                            placeholder="Enter the course fee"
+                            placeholder={translations[language].enterEndDate} 
                             value={form.endDate}
                             handleChange={(e) => setForm({ ...form, endDate: e.target.value })}
                         />
                         <div>
-                            <label htmlFor="image" className="block text-lg font-semibold mb-2">Upload Thumbnail</label>
+                            <label htmlFor="image" className="block text-lg font-semibold mb-2">{translations[language].uploadThumbnail}</label>  
                             <input
                                 type="file"
                                 id="image"
@@ -220,17 +222,15 @@ const EditCourse = () => {
                         </div>
                     </div>
 
-
-
                     <div className="space-y-2">
-                        <label className="block text-lg font-semibold mb-2">Thumbnail Preview</label>
+                        <label className="block text-lg font-semibold mb-2">{translations[language].thumbnailPreview}</label>  
                         <div className="mt-4 flex flex-wrap gap-4">
                             <div className="w-96 h-48 border bg-gray-400 border-gray-300 rounded-md overflow-hidden">
                                 {form.thumbnail ? <img
                                     src={form.thumbnail instanceof File ? URL.createObjectURL(form.thumbnail) : form.thumbnail}
                                     alt={`Uploaded thumbnail`}
                                     className="w-full h-full object-cover"
-                                /> : <div className='flex justify-center items-center h-full font-bold font-serif text-xl'>No Thumbnail Uploaded</div>}
+                                /> : <div className='flex justify-center items-center h-full font-bold font-serif text-xl'>{translations[language].noThumbnailUploaded}</div>}  
                             </div>
                         </div>
                     </div>
@@ -241,16 +241,17 @@ const EditCourse = () => {
                             onClick={() => router.push('/offered-courses')}
                             className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-sm hover:bg-gray-400 transition"
                         >
-                            Cancel
+                            {translations[language].cancel}  
                         </button>
                         <button
                             type="submit"
                             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 transition"
                         >
-                            Update
+                            {translations[language].update}  
                         </button>
                     </div>
                 </form>
+
             </div>
         </div>
     );

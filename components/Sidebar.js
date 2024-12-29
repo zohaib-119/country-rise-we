@@ -9,18 +9,21 @@ import {
   AiOutlineLineChart,
   AiOutlineSetting,
   AiOutlineLogout,
-  AiOutlineProject,
 } from 'react-icons/ai';
 import {
   FaBook, FaChalkboardTeacher, FaCompass
 } from 'react-icons/fa'
+import { useLanguage } from '@/context/LanguageProvider';
+import { translations } from '@/constants';
 
 const Sidebar = () => {
+  const { language } = useLanguage();
+
   return (
     <div className="h-screen w-1/6 bg-white text-blue-600 flex flex-col rounded-2xl shadow-md">
       {/* Logo Section */}
       <div className="h-20 flex items-center justify-center border-b border-blue-200">
-        <h1 className="text-2xl font-bold">CountryRise</h1>
+        <h1 className="text-2xl font-bold">{translations[language].websiteName}</h1>
       </div>
 
       {/* Navigation Options */}
@@ -32,7 +35,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <AiOutlineDashboard size={20} />
-              Dashboard
+              {translations[language].dashboard}
             </Link>
           </li>
           <li>
@@ -41,7 +44,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <AiOutlineShoppingCart size={20} />
-              Products
+              {translations[language].products}
             </Link>
           </li>
           <li>
@@ -50,7 +53,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <AiOutlineLineChart size={20} />
-              Sales Overview
+              {translations[language].salesOverview}
             </Link>
           </li>
           <li>
@@ -59,7 +62,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <FaChalkboardTeacher size={20} />
-              My Courses
+              {translations[language].myCourses}
             </Link>
           </li>
           <li>
@@ -68,7 +71,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <FaBook size={20} />
-              Enrolled Courses
+              {translations[language].enrolledCourses}
             </Link>
           </li>
           <li>
@@ -77,7 +80,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <FaCompass size={20} />
-              Explore Courses
+              {translations[language].exploreCourses}
             </Link>
           </li>
           <li>
@@ -86,7 +89,7 @@ const Sidebar = () => {
               className="flex items-center gap-2 py-2 px-4 hover:bg-blue-100 rounded-md"
             >
               <AiOutlineSetting size={20} />
-              Account Settings
+              {translations[language].accountSettings}
             </Link>
           </li>
         </ul>
@@ -99,7 +102,7 @@ const Sidebar = () => {
           className="w-full flex items-center gap-2 py-2 px-4 text-left hover:bg-blue-100 rounded-md"
         >
           <AiOutlineLogout size={20} />
-          Sign Out
+          {translations[language].signOut}
         </button>
       </div>
     </div>

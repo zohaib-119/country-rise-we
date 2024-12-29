@@ -4,8 +4,11 @@ import LoadingComponent from "@/components/LoadingComponent";
 import Sidebar from "@/components/Sidebar";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { translations } from "@/constants";
+import { useLanguage } from "@/context/LanguageProvider";
 
 const Enrollments = () => {
+  const { language } = useLanguage();
   const router = useRouter();
   const { courseId } = useParams();
   const [courseDetails, setCourseDetails] = useState(null);
@@ -44,26 +47,26 @@ const Enrollments = () => {
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-blue-700">{courseDetails.title}</h1>
           <p className="text-gray-600">
-            Start Date: {courseDetails.start_date} | End Date: {courseDetails.end_date}
+            {translations[language].startDate}: {courseDetails.start_date} | {translations[language].endDate}: {courseDetails.end_date}
           </p>
         </div>
         <h2 className="text-2xl font-bold text-blue-600 mb-4">Enrolled Members</h2>
         {enrolledUsers.length === 0 ? (
           <div className="text-center text-gray-500 mt-6">
-            <p className="text-lg">No students have enrolled in this course yet.</p>
+            <p className="text-lg">{translations[language].noStudentsFound}</p>
           </div>
         ) : (
           <div className="overflow-x-auto bg-white rounded-lg shadow-md">
             <table className="min-w-full table-auto">
               <thead className="bg-blue-500 text-white">
                 <tr>
-                  <th className="p-3 text-left">Profile</th>
-                  <th className="p-3 text-left">Name</th>
-                  <th className="p-3 text-left">Email</th>
-                  <th className="p-3 text-left">Phone</th>
-                  <th className="p-3 text-left">Address</th>
-                  <th className="p-3 text-left">Fee Paid</th>
-                  <th className="p-3 text-left">Enrollment At</th>
+                  <th className="p-3 text-left">{translations[language].profile}</th>
+                  <th className="p-3 text-left">{translations[language].name}</th>
+                  <th className="p-3 text-left">{translations[language].email}</th>
+                  <th className="p-3 text-left">{translations[language].phone}</th>
+                  <th className="p-3 text-left">{translations[language].address}</th>
+                  <th className="p-3 text-left">{translations[language].feePaid}</th>
+                  <th className="p-3 text-left">{translations[language].enrollmentAt}</th>
                 </tr>
               </thead>
               <tbody>

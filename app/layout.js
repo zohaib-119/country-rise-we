@@ -1,5 +1,6 @@
 import "./globals.css";
 import { AuthProvider } from "./AuthProvider";
+import { LanguageProvider } from "@/context/LanguageProvider";
 
 export const metadata = {
   title: "EmpowerHer Hub",
@@ -11,7 +12,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>

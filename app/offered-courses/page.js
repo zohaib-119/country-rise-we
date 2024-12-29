@@ -5,8 +5,11 @@ import CourseCard from "@/components/CourseCard"; // Assuming CourseCard is in t
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/components/LoadingComponent";
 import Sidebar from "@/components/Sidebar";
+import { useLanguage } from "@/context/LanguageProvider";
+import { translations } from "@/constants";
 
 const OfferedCourses = () => {
+  const { language } = useLanguage();
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +57,7 @@ const OfferedCourses = () => {
     try {
       // Log the course ID for debugging
       console.log(`Attempting to delete course with ID: ${id}`);
-  
+
       // Call the backend DELETE API
       const response = await fetch(`/api/course`, {
         method: 'DELETE',
@@ -63,10 +66,10 @@ const OfferedCourses = () => {
         },
         body: JSON.stringify({ course_id: id }),
       });
-  
+
       // Parse the response
       const data = await response.json();
-  
+
       if (response.ok) {
         console.log(`Course deleted successfully: ${id}`);
         setCourses((prevCourses) => prevCourses.filter((course) => course.id !== id));
@@ -79,7 +82,7 @@ const OfferedCourses = () => {
       alert('An unexpected error occurred while deleting the course.');
     }
   };
-  
+
 
   if (loading) {
     return <LoadingComponent />
@@ -90,12 +93,12 @@ const OfferedCourses = () => {
       <Sidebar />
       <div className="w-5/6 h-screen overflow-auto p-6">
         <div className="mb-6 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-blue-700">Offered Courses</h1>
+          <h1 className="text-3xl font-bold text-blue-700">{translations[language].offeredCourses}</h1>
           <button
             onClick={handleCreateCourse}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            Create Course
+            {translations[language].createCourse}
           </button>
         </div>
         <div className="flex flex-wrap gap-6">
@@ -114,19 +117,19 @@ const OfferedCourses = () => {
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded shadow-lg w-96">
               <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-              <p>Are you sure you want to delete course "{courseToDelete.title}"?</p>
+              <p>{`${translations[language].deleteCourseConfirmation} ${courseToDelete.title}`}?</p>
               <div className="flex justify-end gap-4 mt-4">
                 <button
                   onClick={closeDeleteModal}
                   className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
                 >
-                  Cancel
+                  {translations[language].cancel}
                 </button>
                 <button
                   onClick={() => handleDeleteCourse(courseToDelete.id)}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                 >
-                  Delete
+                  {translations[language].delete}
                 </button>
               </div>
             </div>

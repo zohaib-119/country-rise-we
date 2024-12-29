@@ -4,17 +4,12 @@ import LoadingComponent from "@/components/LoadingComponent";
 import Sidebar from "@/components/Sidebar";
 import React, { useState, useEffect } from "react";
 import { FaUsers, FaBoxOpen, FaMoneyBillWave, FaStar, FaCartPlus } from "react-icons/fa";
+import { translations } from "@/constants";
+import { useLanguage } from "@/context/LanguageProvider";
 
-const mockData = {
-  numberOfCustomers: 1200,
-  numberOfProductsSold: 4500,
-  mostSoldProduct: "Elegant Wooden Chair",
-  revenueGenerated: 1250000,
-  totalReviews: 850,
-  averageRating: 4.3,
-};
 
 const Sales = () => {
+  const { language } = useLanguage();
 
   const [products, setProducts] = useState(null);
   const [stats, setStats] = useState(null);
@@ -74,7 +69,7 @@ const Sales = () => {
     <div className="flex">
       <Sidebar />
       <div className="w-5/6 h-screen overflow-auto bg-white p-8 shadow-md">
-        <h1 className="text-3xl font-bold text-blue-600 mb-6">Sales Overview</h1>
+        <h1 className="text-3xl font-bold text-blue-600 mb-6">{translations[language].salesOverview}</h1>
 
         {/* Statistics Section */}
         {stats && (<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -82,7 +77,7 @@ const Sales = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
             <FaUsers className="text-blue-500 text-3xl" />
             <div>
-              <p className="text-gray-500">Total Customers</p>
+              <p className="text-gray-500">{translations[language].totalCustomers}</p>
               <h2 className="text-2xl font-bold">{stats.numberOfCustomers}</h2>
             </div>
           </div>
@@ -91,7 +86,7 @@ const Sales = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
             <FaBoxOpen className="text-blue-500 text-3xl" />
             <div>
-              <p className="text-gray-500">Products Sold</p>
+              <p className="text-gray-500">{translations[language].totalProductsSold}</p>
               <h2 className="text-2xl font-bold">{stats.numberOfProductsSold}</h2>
             </div>
           </div>
@@ -100,7 +95,7 @@ const Sales = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
             <FaMoneyBillWave className="text-blue-500 text-3xl" />
             <div>
-              <p className="text-gray-500">Revenue Generated</p>
+              <p className="text-gray-500">{translations[language].revenueGenerated}</p>
               <h2 className="text-2xl font-bold">Rs. {stats.revenueGenerated.toLocaleString()}</h2>
             </div>
           </div>
@@ -109,7 +104,7 @@ const Sales = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
             <FaCartPlus className="text-blue-500 text-3xl" />
             <div>
-              <p className="text-gray-500">Most Sold Product</p>
+              <p className="text-gray-500">{translations[language].mostSoldProduct}</p>
               <h2 className="text-2xl font-bold">{stats.mostSoldProduct}</h2>
             </div>
           </div>
@@ -118,7 +113,7 @@ const Sales = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
             <FaStar className="text-blue-500 text-3xl" />
             <div>
-              <p className="text-gray-500">Total Reviews</p>
+              <p className="text-gray-500">{translations[language].totalReviews}</p>
               <h2 className="text-2xl font-bold">{stats.totalReviews}</h2>
             </div>
           </div>
@@ -127,7 +122,7 @@ const Sales = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center gap-4">
             <FaStar className="text-blue-500 text-3xl" />
             <div>
-              <p className="text-gray-500">Average Rating</p>
+              <p className="text-gray-500">{translations[language].averageRating}</p>
               <h2 className="text-2xl font-bold">{stats.averageRating} / 5</h2>
             </div>
           </div>
@@ -135,16 +130,16 @@ const Sales = () => {
 
         {/* Products Section */}
         <div className="mt-10">
-          <h2 className="text-2xl font-bold text-blue-600 mb-4">Products</h2>
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">{translations[language].products}</h2>
           <div className="overflow-x-auto bg-white rounded-lg shadow-md">
             <table className="min-w-full table-auto">
               <thead className="bg-blue-500 text-white">
                 <tr>
-                  <th className="p-3 text-left">Product</th>
-                  <th className="p-3 text-left">Price</th>
-                  <th className="p-3 text-left">Total Sales</th>
-                  <th className="p-3 text-left">Total Reviews</th>
-                  <th className="p-3 text-left">Rating</th>
+                  <th className="p-3 text-left">{translations[language].product}</th>
+                  <th className="p-3 text-left">{translations[language].price}</th>
+                  <th className="p-3 text-left">{translations[language].totalSales}</th>
+                  <th className="p-3 text-left">{translations[language].totalReviews}</th>
+                  <th className="p-3 text-left">{translations[language].rating}</th>
                 </tr>
               </thead>
               <tbody>

@@ -8,8 +8,11 @@ import DeleteProductModal from '@/components/DeleteProductModal';
 import ChangeStockModal from '@/components/ChangeStockModal';
 import { useRouter } from 'next/navigation';
 import LoadingComponent from '@/components/LoadingComponent';
+import { translations } from '@/constants';
+import { useLanguage } from '@/context/LanguageProvider';
 
 const Products = () => {
+  const {language} = useLanguage();
   const router = useRouter();
 
   const [products, setProducts] = useState([]);
@@ -121,9 +124,9 @@ const Products = () => {
       <Sidebar />
       <div className='w-5/6 h-screen overflow-auto p-6'>
         <div className='flex justify-between items-center mb-6'>
-            <h1 className="text-3xl font-bold text-blue-700">Products</h1>
+            <h1 className="text-3xl font-bold text-blue-700">{translations[language].products}</h1>
           <Link href="/products/add">
-            <button className='bg-blue-500 text-white px-4 py-2 rounded'>Create Product</button>
+            <button className='bg-blue-500 text-white px-4 py-2 rounded'>{translations[language].createProduct}</button>
           </Link>
         </div>
         <div className='flex gap-5 flex-wrap'>

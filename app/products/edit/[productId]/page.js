@@ -4,8 +4,11 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "@/components/CustomInput";
 import { useRouter, useParams } from "next/navigation";
 import LoadingComponent from "@/components/LoadingComponent";
+import { translations } from "@/constants";
+import { useLanguage } from "@/context/LanguageProvider";
 
 const EditProduct = () => {
+  const {language} = useLanguage();
   const router = useRouter();
   const { productId } = useParams(); // Extract productId from the dynamic route
 
@@ -183,127 +186,128 @@ const EditProduct = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-3xl p-6">
-        <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
-          Edit Product
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <CustomInput
-            label="Product Name"
-            placeholder="Enter the product name"
+    <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+        {translations[language].editProduct}  
+    </h2>
+    <form onSubmit={handleSubmit} className="space-y-6">
+        <CustomInput
+            label={translations[language].productName}  
+            placeholder={translations[language].enterProductName}  
             value={form.title}
             handleChange={handleTitleChange}
             className="w-full"
-          />
+        />
 
-          <CustomInput
-            label="Description"
-            placeholder="Enter the product description"
+        <CustomInput
+            label={translations[language].description}  
+            placeholder={translations[language].enterProductDescription}  
             value={form.description}
             handleChange={handleDescriptionChange}
             className="w-full"
-          />
+        />
 
-          <CustomInput
-            label="Price"
-            placeholder="Enter the product price"
+        <CustomInput
+            label={translations[language].price}  
+            placeholder={translations[language].enterProductPrice}  
             value={form.price}
             handleChange={handlePriceChange}
             className="w-full"
-          />
+        />
 
-          <div className="space-y-2">
+        <div className="space-y-2">
             <label
-              htmlFor="category"
-              className="block text-lg font-semibold mb-2"
+                htmlFor="category"
+                className="block text-lg font-semibold mb-2"
             >
-              Category
+                {translations[language].category}  
             </label>
             <select
-              id="category"
-              value={form.categoryId}
-              onChange={handleCategoryChange}
-              className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                id="category"
+                value={form.categoryId}
+                onChange={handleCategoryChange}
+                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="" disabled>
-                Select a category
-              </option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
+                <option value="" disabled>
+                    {translations[language].selectCategory}  
                 </option>
-              ))}
+                {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                        {category.name}
+                    </option>
+                ))}
             </select>
-          </div>
+        </div>
 
-          <CustomInput
-            label="Stock Quantity"
-            placeholder="Enter the stock quantity"
+        <CustomInput
+            label={translations[language].stockQuantity}  
+            placeholder={translations[language].enterStockQuantity}  
             value={form.stockQuantity}
             handleChange={handleStockQuantityChange}
             className="w-full"
-          />
+        />
 
-          <div className="space-y-2">
+        <div className="space-y-2">
             <label
-              htmlFor="images"
-              className="block text-lg font-semibold mb-2"
+                htmlFor="images"
+                className="block text-lg font-semibold mb-2"
             >
-              Upload Images (1 to 4)
+                {translations[language].uploadImages}  
             </label>
             <input
-              type="file"
-              id="images"
-              name="images"
-              accept="image/*"
-              multiple
-              onChange={handleFileChange}
-              className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                type="file"
+                id="images"
+                name="images"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange}
+                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             />
             {form.images && form.images.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-4">
-                {form.images.map((image, index) => (
-                  <div
-                    key={index}
-                    className="relative w-20 h-20 border border-gray-300 rounded-md overflow-hidden"
-                  >
-                    <img
-                      src={
-                        image instanceof File
-                          ? URL.createObjectURL(image)
-                          : image.url
-                      }
-                      alt={`Uploaded ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                    <button
-                      onClick={() => handleRemoveFile(index)}
-                      className="absolute top-0 right-0 text-red-500 bg-white rounded-full w-5 h-5 flex items-center justify-center"
-                    >
-                      x
-                    </button>
-                  </div>
-                ))}
-              </div>
+                <div className="mt-4 flex flex-wrap gap-4">
+                    {form.images.map((image, index) => (
+                        <div
+                            key={index}
+                            className="relative w-20 h-20 border border-gray-300 rounded-md overflow-hidden"
+                        >
+                            <img
+                                src={
+                                    image instanceof File
+                                        ? URL.createObjectURL(image)
+                                        : image.url
+                                }
+                                alt={`${translations[language].uploadedImage} ${index + 1}`}  
+                                className="w-full h-full object-cover"
+                            />
+                            <button
+                                onClick={() => handleRemoveFile(index)}
+                                className="absolute top-0 right-0 text-red-500 bg-white rounded-full w-5 h-5 flex items-center justify-center"
+                            >
+                                x
+                            </button>
+                        </div>
+                    ))}
+                </div>
             )}
-          </div>
+        </div>
 
-          <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-4">
             <button
-              type="button"
-              onClick={() => router.push("/products")}
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-sm hover:bg-gray-400 transition"
+                type="button"
+                onClick={() => router.push("/products")}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-sm hover:bg-gray-400 transition"
             >
-              Cancel
+                {translations[language].cancel}  
             </button>
             <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 transition"
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 transition"
             >
-              Save
+                {translations[language].save}  
             </button>
-          </div>
-        </form>
-      </div>
+        </div>
+    </form>
+</div>
+
     </div>
   );
 };

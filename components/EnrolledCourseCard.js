@@ -14,7 +14,7 @@ const EnrolledCourseCard = ({ course }) => {
         if (hasStarted()) {
             router.push(`/course/${course.id}`);
         } else {
-            alert("This course is not has not started yet!");
+            alert("This course has not started yet!");
         }
     };
 

@@ -5,6 +5,8 @@ import ExploreCourseCard from "@/components/ExploreCourseCard";
 import LoadingComponent from "@/components/LoadingComponent";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
+import { translations } from "@/constants";
+import { useLanguage } from "@/context/LanguageProvider";
 
 const categories = [
   { id: 1, name: "Business Development" },
@@ -20,6 +22,7 @@ const categories = [
 ];
 
 const ExploreCourses = () => {
+  const { language } = useLanguage();
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,14 +87,14 @@ const ExploreCourses = () => {
       <Sidebar />
       <div className="p-8 h-screen w-5/6 overflow-auto">
         <div className="mb-6 flex justify-between">
-          <h1 className="text-3xl font-bold text-blue-700">Explore Courses</h1>
+          <h1 className="text-3xl font-bold text-blue-700">{translations[language].exploreCourses}</h1>
 
           {/* Search and filter controls */}
           <div className="mb-6 flex gap-4">
             {/* Search Bar */}
             <input
               type="text"
-              placeholder="Search courses by title..."
+              placeholder={translations[language].searchCourseByTitle}
               className="p-2 w-[500px] border border-gray-300 rounded"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
@@ -123,7 +126,7 @@ const ExploreCourses = () => {
               />
             ))
           ) : (
-            <p>No courses found.</p>
+            <p>{translations[language].noCourseFound}</p>
           )}
         </div>
       </div>

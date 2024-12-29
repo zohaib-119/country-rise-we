@@ -3,6 +3,8 @@
 import LoadingComponent from '@/components/LoadingComponent';
 import Sidebar from '@/components/Sidebar';
 import React, { useEffect, useState } from 'react';
+import { useLanguage } from '@/context/LanguageProvider';
+import { translations } from '@/constants';
 
 const provinces = [
   { id: 'punjab', name: 'Punjab' },
@@ -14,56 +16,65 @@ const provinces = [
   { id: 'islamabad', name: 'Islamabad Capital Territory' },
 ];
 
+const languages = [
+  { id: 'en', name: 'English' },
+  { id: 'ur', name: 'اردو' },
+  {id: 'panjabi', name: 'پنجابی'},
+  { id: 'pashto', name: 'پښتو'},
+];
+
 const citiesByProvince = {
   Punjab: [
-    { id: 'lahore', name: 'Lahore' },
-    { id: 'faisalabad', name: 'Faisalabad' },
-    { id: 'rawalpindi', name: 'Rawalpindi' },
-    { id: 'gujranwala', name: 'Gujranwala' },
-    { id: 'sialkot', name: 'Sialkot' },
-    { id: 'multan', name: 'Multan' },
-    { id: 'bahawalpur', name: 'Bahawalpur' },
+    { id: 'lahore', name: 'Lahore - لاہور' },
+    { id: 'faisalabad', name: 'Faisalabad - فیصل آباد' },
+    { id: 'rawalpindi', name: 'Rawalpindi - راولپنڈی' },
+    { id: 'gujranwala', name: 'Gujranwala - گوجرانوالہ' },
+    { id: 'sialkot', name: 'Sialkot - سیالکوٹ' },
+    { id: 'multan', name: 'Multan - ملتان' },
+    { id: 'bahawalpur', name: 'Bahawalpur - بہاولپور' },
   ],
   Sindh: [
-    { id: 'karachi', name: 'Karachi' },
-    { id: 'hyderabad', name: 'Hyderabad' },
-    { id: 'sukkur', name: 'Sukkur' },
-    { id: 'larkana', name: 'Larkana' },
-    { id: 'mirpurkhas', name: 'Mirpur Khas' },
+    { id: 'karachi', name: 'Karachi - کراچی' },
+    { id: 'hyderabad', name: 'Hyderabad - حیدرآباد' },
+    { id: 'sukkur', name: 'Sukkur - سکھر' },
+    { id: 'larkana', name: 'Larkana - لاڑکانہ' },
+    { id: 'mirpurkhas', name: 'Mirpur Khas - میرپور خاص' },
   ],
   'Khyber Pakhtunkhwa': [
-    { id: 'peshawar', name: 'Peshawar' },
-    { id: 'abbottabad', name: 'Abbottabad' },
-    { id: 'mardan', name: 'Mardan' },
-    { id: 'swat', name: 'Swat' },
-    { id: 'kohat', name: 'Kohat' },
+    { id: 'peshawar', name: 'Peshawar - پشاور' },
+    { id: 'abbottabad', name: 'Abbottabad - ایبٹ آباد' },
+    { id: 'mardan', name: 'Mardan - مردان' },
+    { id: 'swat', name: 'Swat - سوات' },
+    { id: 'kohat', name: 'Kohat - کوہاٹ' },
   ],
   Balochistan: [
-    { id: 'quetta', name: 'Quetta' },
-    { id: 'gwadar', name: 'Gwadar' },
-    { id: 'khuzdar', name: 'Khuzdar' },
-    { id: 'loralai', name: 'Loralai' },
-    { id: 'turbat', name: 'Turbat' },
+    { id: 'quetta', name: 'Quetta - کوئٹہ' },
+    { id: 'gwadar', name: 'Gwadar - گوادر' },
+    { id: 'khuzdar', name: 'Khuzdar - خضدار' },
+    { id: 'loralai', name: 'Loralai - لورالائی' },
+    { id: 'turbat', name: 'Turbat - تربت' },
   ],
   'Gilgit-Baltistan': [
-    { id: 'gilgit', name: 'Gilgit' },
-    { id: 'skardu', name: 'Skardu' },
-    { id: 'hunza', name: 'Hunza' },
-    { id: 'chilas', name: 'Chilas' },
+    { id: 'gilgit', name: 'Gilgit - گلگت' },
+    { id: 'skardu', name: 'Skardu - سکردو' },
+    { id: 'hunza', name: 'Hunza - ہنزہ' },
+    { id: 'chilas', name: 'Chilas - چلاس' },
   ],
   'Azad Kashmir': [
-    { id: 'muzaffarabad', name: 'Muzaffarabad' },
-    { id: 'mirpur', name: 'Mirpur' },
-    { id: 'bhimber', name: 'Bhimber' },
-    { id: 'rawalakot', name: 'Rawalakot' },
+    { id: 'muzaffarabad', name: 'Muzaffarabad - مظفرآباد' },
+    { id: 'mirpur', name: 'Mirpur - میرپور' },
+    { id: 'bhimber', name: 'Bhimber - بھمبر' },
+    { id: 'rawalakot', name: 'Rawalakot - راولاکوٹ' },
   ],
   'Islamabad Capital Territory': [
-    { id: 'islamabad', name: 'Islamabad' },
+    { id: 'islamabad', name: 'Islamabad - اسلام آباد' },
   ],
 };
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
+
+  const { language, changeLanguage } = useLanguage();
 
   const [isEditing, setIsEditing] = useState(false);
   const [newProfile, setNewProfile] = useState(null);
@@ -173,11 +184,26 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex">
-      <Sidebar/>
+      <Sidebar />
       <div className="bg-white rounded-2xl w-5/6 h-screen overflow-auto p-8 shadow-lg">
         <div className="flex justify-between">
-          <h1 className="text-3xl font-bold text-blue-600">Profile</h1>
+          <h1 className="text-3xl font-bold text-blue-600">{translations[language].profile}</h1>
           <div className='flex gap-3'>
+            {!isEditing && (
+              <select
+                name="language"
+                value={language ?? 'en'}
+                onChange={(e) => changeLanguage(e.target.value)}
+                disabled={isEditing}
+                className="px-3 py-2 border border-gray-300 rounded-lg w-28 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              >
+                {languages.map((lang) => (
+                  <option key={lang.id} value={lang.id}>
+                    {lang.name}
+                  </option>
+                ))}</select>
+            )
+            }
             {isEditing && (
               <button
                 onClick={() => {
@@ -186,7 +212,7 @@ const Profile = () => {
                 }}
                 className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
               >
-                Cancel
+                {translations[language].cancel}
               </button>
             )
             }
@@ -194,7 +220,7 @@ const Profile = () => {
               onClick={isEditing ? handleUpdate : () => setIsEditing(true)}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              {isEditing ? 'Save Changes' : 'Edit Profile'}
+              {isEditing ? translations[language].saveChanges : translations[language].editProfile}
             </button>
 
           </div>
@@ -229,11 +255,11 @@ const Profile = () => {
 
           {/* Personal Information Section */}
           <div className="bg-white p-3">
-            <h2 className="text-xl font-semibold text-blue-600 mb-4">Personal Information</h2>
+            <h2 className="text-xl font-semibold text-blue-600 mb-4">{translations[language].personalInformation}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6">
               <div className='flex flex-col gap-2'>
-                <label className="text-gray-700 text-lg font-semibold">Name</label>
+                <label className={`text-gray-700 font-semibold w-full ${language !== 'en' ? 'flex justify-end text-xl' : 'text-lg'}`}>{translations[language].name}</label>
                 <input
                   type="text"
                   name="name"
@@ -245,7 +271,7 @@ const Profile = () => {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <label className="text-gray-700 text-lg font-semibold">Phone</label>
+                <label className={`text-gray-700 font-semibold w-full ${language !== 'en' ? 'flex justify-end text-xl' : 'text-lg'}`}>{translations[language].phone}</label>
                 <input
                   type="text"
                   name="phone"
@@ -257,7 +283,7 @@ const Profile = () => {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <label className="text-gray-700 text-lg font-semibold">Email</label>
+                <label className={`text-gray-700 font-semibold w-full ${language !== 'en'? 'flex justify-end text-xl' : 'text-lg'}`}>{translations[language].email}</label>
                 <input
                   type="email"
                   name="email"
@@ -272,11 +298,11 @@ const Profile = () => {
 
           {/* Address Information Section */}
           <div className="bg-white p-3">
-            <h2 className="text-xl font-semibold text-blue-600 mb-4">Address Information</h2>
+            <h2 className="text-xl font-semibold text-blue-600 mb-4">{translations[language].addressInformation}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2  gap-y-2 gap-x-6">
               <div className='flex flex-col gap-2'>
-                <label className="text-gray-700 text-lg font-semibold">Address</label>
+                <label className={`text-gray-700 font-semibold w-full ${language !== 'en' ? 'flex justify-end text-xl' : 'text-lg'}`}>{translations[language].address}</label>
                 <input
                   type="text"
                   name="address"
@@ -288,7 +314,7 @@ const Profile = () => {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <label className="text-gray-700 text-lg font-semibold">Province</label>
+                <label className={`text-gray-700 font-semibold w-full ${language !== 'en' ? 'flex justify-end text-xl' : 'text-lg'}`}>{translations[language].province}</label>
                 <select
                   name="state"
                   value={newProfile.state ?? ''}
@@ -306,7 +332,7 @@ const Profile = () => {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <label className="text-gray-700 text-lg font-semibold">City</label>
+                <label className={`text-gray-700 font-semibold w-full ${language !== 'en' ? 'flex justify-end text-xl' : 'text-lg'}`}>{translations[language].city}</label>
                 <select
                   name="city"
                   value={newProfile.city ?? ''}
