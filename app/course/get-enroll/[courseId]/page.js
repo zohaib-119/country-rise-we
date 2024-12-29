@@ -5,11 +5,35 @@ import { useRouter, useParams } from 'next/navigation';
 import getStripe from '@/lib/getStripe';
 import LoadingComponent from '@/components/LoadingComponent';
 
+
 const CourseEnrollmentPage = () => {
   const { courseId } = useParams();
   const stripePromise = getStripe(); 
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState(null);
+  const [courseEnrollmentPossible, setCourseEnrollmentPossible] = useState(true);
+
+  useEffect(()=>{
+    if(!courseEnrollmentPossible){
+      router.push('/enrolled-courses')
+    }
+  }, [courseEnrollmentPossible]);
+
+  useEffect(()=>{
+    const fetchEnrollmentStatus = async () => {
+      const response = await fetch(`/api/course/enrollment-possible/${courseId}`);
+      const data = await response.json();
+      if(!response.ok){
+        router.push('/explore-courses')
+      }
+      setCourseEnrollmentPossible(data.enrollment_possible);
+    };
+
+    if (courseId) {
+      fetchEnrollmentStatus();
+    }
+  }, [courseId]);
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -52,7 +76,7 @@ const CourseEnrollmentPage = () => {
 
   if (loading) return <LoadingComponent />;
 
-  if (!course) return <LoadingComponent />;  // You can replace this with a "Course Not Found" message if needed.
+  if (!course) return <LoadingComponent />;
 
   return (
     <div className="flex justify-center items-center min-h-screen">
