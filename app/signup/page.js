@@ -155,7 +155,7 @@ const SignUp = () => {
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full text-center">
               <h3 className="text-2xl font-bold text-blue-600 mb-4">Verify Your Account</h3>
               <CustomInput
-                label="Verification code is sent to your email"
+                label="Enter any dummy code"
                 type="text"
                 placeholder="Enter verification code"
                 value={form.code}

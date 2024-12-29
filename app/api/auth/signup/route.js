@@ -37,15 +37,15 @@ export async function POST(req) {
             );
         }
 
-        const verification = await verifyCode(email, code);
+        // const verification = await verifyCode(email, code);
 
-        console.log(verification)
-        if(!verification.success){
-            return new Response(
-                JSON.stringify({ error: 'Verification fails.' }),
-                { status: 400 }
-            );
-        }
+        // console.log(verification)
+        // if(!verification.success){
+        //     return new Response(
+        //         JSON.stringify({ error: 'Verification fails.' }),
+        //         { status: 400 }
+        //     );
+        // }
 
         // Insert the new user into the database
         const { error: insertError } = await client.from('users').insert([
