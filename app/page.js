@@ -71,46 +71,46 @@ const Dashboard = () => {
     <div className="flex bg-white text-gray-800">
       <Sidebar />
       <div className="w-5/6 h-screen overflow-auto p-6">
-        <h1 className="text-2xl font-bold text-blue-600 mb-6">Welcome, {userData.name}</h1>
+        <h1 className="text-2xl font-bold text-black-600 mb-6">Welcome, {userData.name}</h1>
 
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="flex items-center justify-between p-4 bg-blue-100 rounded shadow">
+          <div className="flex items-center justify-between p-4 rounded shadow">
             <FaProductHunt className="text-blue-500 text-3xl" />
             <div className="text-right">
               <h3 className="text-xl font-semibold">{userData.totalProducts}</h3>
               <p className="text-sm text-blue-500">Total Products</p>
             </div>
           </div>
-          <div className="flex items-center justify-between p-4 bg-blue-100 rounded shadow">
+          <div className="flex items-center justify-between p-4 rounded shadow">
             <FaUsers className="text-blue-500 text-3xl" />
             <div className="text-right">
               <h3 className="text-xl font-semibold">{userData.totalCustomers}</h3>
               <p className="text-sm text-blue-500">Total Customers</p>
             </div>
           </div>
-          <div className="flex items-center justify-between p-4 bg-blue-100 rounded shadow">
+          <div className="flex items-center justify-between p-4 rounded shadow">
             <FaUserGraduate className="text-blue-500 text-3xl" />
             <div className="text-right">
               <h3 className="text-xl font-semibold">{userData.enrollments}</h3>
               <p className="text-sm text-blue-500">Total Enrollments</p>
             </div>
           </div>
-          <div className="flex items-center justify-between p-4 bg-blue-100 rounded shadow">
+          <div className="flex items-center justify-between p-4 rounded shadow">
             <FaMoneyBill className="text-blue-500 text-3xl" />
             <div className="text-right">
               <h3 className="text-xl font-semibold">Rs. {userData.totalRevenue}</h3>
               <p className="text-sm text-blue-500">Total Revenue</p>
             </div>
           </div>
-          <div className="flex items-center justify-between p-4 bg-blue-100 rounded shadow">
+          <div className="flex items-center justify-between p-4 rounded shadow">
             <FaChartLine className="text-blue-500 text-3xl" />
             <div className="text-right">
               <h3 className="text-xl font-semibold">{userData.totalSales}</h3>
               <p className="text-sm text-blue-500">Total Sales</p>
             </div>
           </div>
-          <div className="flex items-center justify-between p-4 bg-blue-100 rounded shadow">
+          <div className="flex items-center justify-between p-4 rounded shadow">
             <FaWarehouse className="text-blue-500 text-3xl" />
             <div className="text-right">
               <h3 className="text-xl font-semibold">{userData.totalStock}</h3>
