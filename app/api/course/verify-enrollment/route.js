@@ -36,30 +36,48 @@ export async function POST(req) {
       // Connect to the database
       const client = await dbConnect();
 
-      // Fetch IDs of courses the user is not enrolled in
-      const { data: possibleEnrollments, error: possibleEnrollmentsError } = await client
-        .from("user_course_possible_enrollments")
-        .select("course_id")
+      // // Fetch IDs of courses the user is not enrolled in
+      // const { data: possibleEnrollments, error: possibleEnrollmentsError } = await client
+      //   .from("user_course_possible_enrollments")
+      //   .select("course_id")
+      //   .eq("user_id", user_id)
+      //   .eq("course_id", course_id)
+
+      // if (possibleEnrollmentsError) {
+      //   console.error("Error fetching possible enrollments:", possibleEnrollmentsError);
+      //   return new Response(
+      //     JSON.stringify({ error: "Error fetching possible enrollments" }),
+      //     { status: 500 }
+      //   );
+      // }
+
+      // if (!possibleEnrollments || possibleEnrollments.length === 0) {
+      //   console.log("Course enrollment not allowed for user", { user_id, course_id });
+      //   return new Response(
+      //     JSON.stringify({ error: "Cannot enroll in this course" }),
+      //     { status: 404 }
+      //   );
+      // }
+
+      const { data: existingEnrollment } = await client
+        .from("enrollments")
+        .select("*")
         .eq("user_id", user_id)
         .eq("course_id", course_id)
+        .is('unenrollment_date', null)
+        .single();
 
-      if (possibleEnrollmentsError) {
-        console.error("Error fetching possible enrollments:", possibleEnrollmentsError);
+      if (existingEnrollment) {
+        console.log('enrollment exists');
         return new Response(
-          JSON.stringify({ error: "Error fetching possible enrollments" }),
-          { status: 500 }
+          JSON.stringify({ success: true, message: 'Already enrolled' }),
+          { status: 200 }
         );
       }
 
-      if (!possibleEnrollments || possibleEnrollments.length === 0) {
-        console.log("Course enrollment not allowed for user", { user_id, course_id });
-        return new Response(
-          JSON.stringify({ error: "Cannot enroll in this course" }),
-          { status: 404 }
-        );
-      }
+      console.log('enrollment not exist adding one');
 
-      // Fetch IDs of courses the user is not enrolled in
+      // Proceed to insert if no existing enrollment is found
       const { error: enrollmentError } = await client
         .from("enrollments")
         .insert({

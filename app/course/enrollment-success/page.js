@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import LoadingComponent from '@/components/LoadingComponent';
 import { FaArrowRight } from 'react-icons/fa'; // Importing the right arrow icon from react-icons
@@ -11,6 +11,7 @@ const EnrollmentSuccess = () => {
   const session_id = searchParams.get('session_id');
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [loading, setLoading] = useState(true);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     if (!session_id) {
@@ -18,6 +19,8 @@ const EnrollmentSuccess = () => {
       router.push('enrolled-courses')
       return;
     }
+    if (hasFetched.current) return; // Skip if already fetched
+    hasFetched.current = true;
 
     const fetchSessionDetails = async () => {
       try {
@@ -50,7 +53,8 @@ const EnrollmentSuccess = () => {
     };
 
     fetchSessionDetails();
-  }, [router.query]);
+    console.log('ethe roula lagda')
+  }, []);
 
   if (loading) return <LoadingComponent />;
 

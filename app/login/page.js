@@ -9,6 +9,7 @@ import { signIn } from 'next-auth/react';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
 
   const handleEmailChange = (e) => {
     setForm({ ...form, email: e.target.value });
@@ -33,7 +34,8 @@ const Login = () => {
       window.location.href = '/'
     } else {
       // Handle login error
-      console.error('Login failed:', result.error);
+      setError('Invalid Credentials, Try Again!')
+      setForm({ email: '', password: '' })
     }
   };
 
@@ -69,6 +71,7 @@ const Login = () => {
                 Login
               </button>
             </form>
+            {error && <p className='text-center text-sm mt-4 font-semibold text-red-600 border-red-600 border-2 rounded-md  bg-red-100 p-2'>{error}</p>}
             <p className="text-center text-sm mt-4">
               Don't have an account?{' '}
               <Link href="/signup" className="text-blue-600 font-semibold hover:underline">

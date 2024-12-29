@@ -2,8 +2,8 @@ import React from "react";
 
 const EnrolledCourseCard = ({ course, onEnroll }) => {
 
-    const truncatedDescription = course.description.length > 55
-        ? course.description.slice(0, 52) + '...'
+    const truncatedDescription = course.description.length > 53
+        ? course.description.slice(0, 50) + '...'
         : course.description;
 
     return (

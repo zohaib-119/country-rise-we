@@ -11,6 +11,7 @@ const SignUp = () => {
 
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState('');
 
   const [form, setForm] = useState({ email: '', password: '', name: '', code: '' });
 
@@ -42,12 +43,13 @@ const SignUp = () => {
         },
         body: JSON.stringify({ email: form.email }),
       });
-  
+
+      const data = await response.json()
       if (response.ok) {
         console.log('Verification code sent successfully.');
         setShowModal(true); // Open the modal to enter verification code
       } else {
-        console.error('Failed to send verification code.');
+        setError(data.error)
       }
     } catch (error) {
       console.error('Error sending verification code:', error);
@@ -73,13 +75,15 @@ const SignUp = () => {
           code: form.code, // Assuming the verification code is stored in `form.code`
         }),
       });
-  
+
+      const data = await response.json()
       if (response.ok) {
         console.log('Signup successful.');
         router.push('/login');
         setShowModal(false); // Close the modal after successful signup
       } else {
-        console.error('Signup failed.');
+        setShowModal(false);
+        setError(data.error);
       }
     } catch (error) {
       console.error('Error during signup:', error);
@@ -135,6 +139,7 @@ const SignUp = () => {
                 Sign Up
               </button>
             </form>
+            {error && <p className='text-center text-sm mt-4 font-semibold text-red-600 border-red-600 border-2 rounded-md  bg-red-100 p-2'>{error}</p>}
             <p className="text-center text-sm mt-4">
               Already have an account?{' '}
               <Link href="/login" className="text-blue-600 font-semibold hover:underline">
