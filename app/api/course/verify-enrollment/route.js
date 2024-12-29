@@ -9,7 +9,7 @@ export async function POST(req) {
   const { sessionId } = await req.json();  // Get the sessionId from the request body
 
   // Initialize Stripe with your secret key
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
   if (!sessionId) {
     return new Response(JSON.stringify({ error: 'Missing Session Id' }), { status: 400 });
