@@ -1,13 +1,9 @@
-// code review 1.0 passed
-
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs';
-import path from 'path';
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export async function POST(req) {
@@ -23,38 +19,36 @@ export async function POST(req) {
       );
     }
 
-    // Process files
+    // Process files using upload_stream
     const uploadResults = await Promise.all(
-      files.map(async (file, index) => {
-        const fileBuffer = Buffer.from(await file.arrayBuffer()).toString('base64'); // Convert Blob to Buffer
+      files.map(async (file) => {
+        return new Promise((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            { resource_type: 'auto' },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
+            }
+          );
 
-        const uploadDir = path.join(__dirname, 'public', 'upload'); // Directory to save the file
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        const tempPath = path.join(uploadDir, `temp-${index}-${file.name}`);
-
-        // Write buffer to local file
-        await fs.promises.writeFile(tempPath, fileBuffer);
-
-        // Upload to Cloudinary
-        const result = await cloudinary.uploader.upload(tempPath, {
-          resource_type: 'auto',
-          invalidate: true,
+          // Stream the file data to Cloudinary
+          const fileBuffer = Buffer.from(await file.arrayBuffer());
+          const stream = require('stream');
+          const bufferStream = new stream.PassThrough();
+          bufferStream.end(fileBuffer);
+          bufferStream.pipe(uploadStream);
         });
-
-        // Delete the local file after upload
-        await fs.promises.unlink(tempPath);
-
-        return result;
       })
     );
 
     // Extract secure URLs
-    const result = uploadResults.map((result) => {
-      return { url: result.secure_url, public_id: result.public_id }
-    });
+    const result = uploadResults.map((result) => ({
+      url: result.secure_url,
+      public_id: result.public_id,
+    }));
 
     return new Response(
       JSON.stringify({ success: true, result }),
