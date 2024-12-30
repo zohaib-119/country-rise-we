@@ -21,8 +21,8 @@ export async function POST(req) {
 
     // Process files using upload_stream
     const uploadResults = await Promise.all(
-      files.map(async (file) => {
-        return new Promise((resolve, reject) => {
+      files.map(async (file) => { // Add async here
+        return new Promise(async (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             { resource_type: 'auto' },
             (error, result) => {
@@ -35,7 +35,7 @@ export async function POST(req) {
           );
 
           // Stream the file data to Cloudinary
-          const fileBuffer = Buffer.from(await file.arrayBuffer());
+          const fileBuffer = Buffer.from(await file.arrayBuffer()); // await is now valid
           const stream = require('stream');
           const bufferStream = new stream.PassThrough();
           bufferStream.end(fileBuffer);
