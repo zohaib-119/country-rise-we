@@ -7,7 +7,7 @@ import path from 'path';
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 export async function POST(req) {
@@ -26,7 +26,7 @@ export async function POST(req) {
     // Process files
     const uploadResults = await Promise.all(
       files.map(async (file, index) => {
-        const fileBuffer = Buffer.from(await file.arrayBuffer()); // Convert Blob to Buffer
+        const fileBuffer = Buffer.from(await file.arrayBuffer()).toString('base64'); // Convert Blob to Buffer
 
         const uploadDir = path.join(__dirname, 'public', 'upload'); // Directory to save the file
         if (!fs.existsSync(uploadDir)) {
@@ -40,7 +40,8 @@ export async function POST(req) {
 
         // Upload to Cloudinary
         const result = await cloudinary.uploader.upload(tempPath, {
-          resource_type: 'auto'
+          resource_type: 'auto',
+          invalidate: true,
         });
 
         // Delete the local file after upload
